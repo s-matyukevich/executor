@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"sync"
 	"time"
 )
 
@@ -20,6 +21,8 @@ func (e *Executor) Execute() {
 	var timeoutChanel = time.After(ExecutorTimeout * time.Minute)
 	var interuptChanel = make(chan os.Signal)
 	signal.Notify(interuptChanel, os.Interrupt, os.Kill)
+	var wg sync.WaitGroup
+	wg.Add(1)
 	go func(){
 		for {
 			select {
@@ -33,8 +36,10 @@ func (e *Executor) Execute() {
 				break;
 			}
 		}
+		wg.Done()
 	}()
 	for _, stage := range e.stages {
 		stage.ExecuteTasks(statusChanel)
 	}
+	wg.Wait()
 }
