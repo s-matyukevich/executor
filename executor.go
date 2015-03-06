@@ -30,10 +30,12 @@ func (e *Executor) Execute() {
 				fmt.Printf("Task: %s entered status: %d\n", task.Name, task.Status)
 			case <- timeoutChanel:
 				fmt.Printf("Executor timeout")
-				break;
+				wg.Done()
+				return;
 			case <- interuptChanel:
 				fmt.Printf("Exiting")
-				break;
+				wg.Done()
+				return;
 			}
 		}
 		wg.Done()
