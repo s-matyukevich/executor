@@ -45,8 +45,8 @@ func (s *Stage) ExecuteTasks(statusChanel chan *Task){
 			if task.Status == StatusRunning {
 				task.Status = StatusExpired
 				statusChanel <- task
+				wg.Done()
 			}
-			wg.Done()
 		}()
 		if !s.isParallel {
 			wg.Wait()
