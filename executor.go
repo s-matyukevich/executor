@@ -23,19 +23,19 @@ func (e *Executor) Execute() {
 	signal.Notify(interuptChanel, os.Interrupt, os.Kill)
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func(){
+	go func() {
 		for {
 			select {
-			case task := <- statusChanel:
+			case task := <-statusChanel:
 				fmt.Printf("Task: %s entered status: %d\n", task.Name, task.Status)
-			case <- timeoutChanel:
+			case <-timeoutChanel:
 				fmt.Printf("Executor timeout")
 				wg.Done()
-				return;
-			case <- interuptChanel:
+				return
+			case <-interuptChanel:
 				fmt.Printf("Exiting")
 				wg.Done()
-				return;
+				return
 			}
 		}
 		wg.Done()

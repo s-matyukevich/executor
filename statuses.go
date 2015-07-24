@@ -2,10 +2,10 @@ package main
 
 const (
 	StatusWaiting = iota
-	StatusRunning 
-	StatusFailed 
-	StatusExpired 
-	StatusFinished 
+	StatusRunning
+	StatusFailed
+	StatusExpired
+	StatusFinished
 )
 
 const TaskTimeout = 1
